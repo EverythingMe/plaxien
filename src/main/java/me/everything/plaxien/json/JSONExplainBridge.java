@@ -1,19 +1,13 @@
 package me.everything.plaxien.json;
 
+import java.util.Map;
+
+import me.everything.plaxien.Explain;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import me.everything.plaxien.Explain;
-import me.everything.plaxien.Explainer;
 
 
 /**
@@ -94,10 +88,19 @@ public class JSONExplainBridge {
      * @return an explain tree node
      */
     public Explain.Node parseJSON(String rawJson, String title, boolean expanded) {
-
-
         JsonElement root = mParser.parse(rawJson);
+        return parseJSON(root, title, expanded);
+    }
 
+
+    /**
+     * Parse a json object into an Explain tree, with the root being a node with the given title
+     * @param root the root JSON element of the tree
+     * @param title The title of the tree's root node
+     * @param expanded whether the tree root should be expanded
+     * @return an explain tree node
+     */
+    public Explain.Node parseJSON(JsonElement root, String title, boolean expanded) {
         if (!(root.isJsonObject())) {
             throw new RuntimeException("Invalid JSON: Root must be a dictionary");
         }
@@ -106,10 +109,6 @@ public class JSONExplainBridge {
         parseMap(root.getAsJsonObject(), tree);
 
         return tree;
-
-
     }
-
-
 
 }

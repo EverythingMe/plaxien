@@ -5,4 +5,7 @@
 .DS_Store
 /build
 android-issues.pickle
+*.class
+src/main/bin
+src/main/gen
 

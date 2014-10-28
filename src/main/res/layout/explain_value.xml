@@ -27,7 +27,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="THE QUICK BROWN FOX"
         android:id="@+id/vname"
-        android:gravity="start|top"
         android:textIsSelectable="true"
         android:autoLink="all"
         android:ellipsize="end"
