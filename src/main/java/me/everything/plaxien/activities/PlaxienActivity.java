@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 public class PlaxienActivity extends Activity {
 	
@@ -82,7 +83,7 @@ public class PlaxienActivity extends Activity {
 			mDeleteWhenDone = intent.getExtras().getBoolean(EXTRA_DELETE_WHEN_DONE);
 		}
 
-		LinearLayout contentLayout = (LinearLayout) findViewById(R.id.plaxien_content_layout);
+		ScrollView contentLayout = (ScrollView) findViewById(R.id.plaxien_content_layout);
 		
 		String jsonData = "{}";
 		if (mJsonFile != null) {
