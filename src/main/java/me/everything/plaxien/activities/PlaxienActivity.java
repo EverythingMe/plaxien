@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import me.everything.plaxien.Explain;
 import me.everything.plaxien.ExplainViewFactory;
@@ -14,9 +16,13 @@ import me.everything.plaxien.json.JSONExplainBridge;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 public class PlaxienActivity extends Activity {
@@ -68,13 +74,15 @@ public class PlaxienActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.plaxien_activity);
-		getActionBar().setTitle("Plaxien");
 		
 		Intent intent = getIntent();
 		
 		if (intent.hasExtra(EXTRA_JSON_FILE_PATH)) {
 			mJsonFilePath = intent.getExtras().getString(EXTRA_JSON_FILE_PATH);
 			mJsonFile = new File(mJsonFilePath);
+			getActionBar().setTitle("Explain: " + mJsonFile.getName());			
+		} else {
+			getActionBar().setTitle("Explain");
 		}
 		if (intent.hasExtra(EXTRA_ROOT_TITLE)) {
 			mRootTitle = intent.getExtras().getString(EXTRA_ROOT_TITLE);
@@ -105,4 +113,43 @@ public class PlaxienActivity extends Activity {
 			mJsonFile.delete();
 		}
 	}	
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_plaxien_activity_actions, menu);
+	    return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_share) {
+            handleShare();
+            return true;			
+		}		
+        return super.onOptionsItemSelected(item);
+	}
+	
+	private void handleShare() {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		String android_id = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String time = sdf.format(new Date());
+
+		String subject = "Explain Dump [" + mRootTitle + " @ " + time + "]";
+		String text = "See file attachment.";
+		if (android_id != null)
+			text += "\nOrigin Device ID [" + android_id + "].";    	    	
+
+		intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+		intent.putExtra(Intent.EXTRA_TEXT, text);
+
+		intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(mJsonFile));
+		intent.setType("application/file");
+
+		startActivity(Intent.createChooser(intent, "Share explain dump to..."));
+	}
+	
 }
