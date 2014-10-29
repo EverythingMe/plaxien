@@ -3,9 +3,11 @@ package me.everything.plaxien.activities;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,6 +44,31 @@ public class PlaxienActivity extends Activity {
 		intent.putExtra(EXTRA_ROOT_TITLE, rootTitle);
 		intent.putExtra(EXTRA_DELETE_WHEN_DONE, deleteFileWhenDone);
 		return intent;
+	}
+	
+	public static void explainFromJsonString(Context context, String rootTitle, File explainDir, String explainFileName, String jsonData, boolean deleteFileWhenDone) {
+		File explainFile = new File(explainDir, explainFileName);
+		PrintWriter out;
+		try {
+			out = new PrintWriter(explainFile);
+		} catch (FileNotFoundException e) {
+			return;
+		}
+		
+		try {
+			out.println(jsonData);
+		} finally {
+			out.close();
+		}
+	}
+	
+	public static void explainFromJsonFile(Context context, String rootTitle, File jsonDataFile, boolean deleteWhenDone) {
+		Intent intent = PlaxienActivity.createIntent(context, rootTitle, jsonDataFile, deleteWhenDone);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		
+		if (intent != null) {
+			context.startActivity(intent);
+		}		
 	}
 	
 	private static String convertStreamToString(InputStream is) throws IOException {

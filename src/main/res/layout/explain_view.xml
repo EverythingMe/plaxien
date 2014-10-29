@@ -38,5 +38,7 @@
         android:layout_marginRight="2dp"
         android:divider="@android:drawable/divider_horizontal_bright"
         android:dividerPadding="4dp"
-        android:showDividers="beginning|middle|end"></LinearLayout>
+        android:showDividers="beginning|middle|end">
+        
+    </LinearLayout>
 </LinearLayout>
