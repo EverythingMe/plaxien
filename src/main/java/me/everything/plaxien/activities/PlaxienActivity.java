@@ -60,6 +60,7 @@ public class PlaxienActivity extends Activity {
 		} finally {
 			out.close();
 		}
+		explainFromJsonFile(context, rootTitle, explainFile, deleteFileWhenDone);
 	}
 	
 	public static void explainFromJsonFile(Context context, String rootTitle, File jsonDataFile, boolean deleteWhenDone) {
