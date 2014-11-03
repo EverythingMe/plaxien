@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings.Secure;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,21 +33,47 @@ public class PlaxienActivity extends Activity {
 	private static final String EXTRA_JSON_FILE_PATH = "jsonFilePath";
 	private static final String EXTRA_ROOT_TITLE = "rootTitle";
 	private static final String EXTRA_DELETE_WHEN_DONE = "deleteWhenDone";
+    private static final String EXTRA_INTERNAL_SERIALIZATION = "internalSerialization";
 	
 	private boolean mDeleteWhenDone = false;
 	private String mJsonFilePath = null;
 	private File mJsonFile = null;
 	private String mRootTitle = "Explanation";
+    private boolean mInternalSerialization;
 	
-	public static Intent createIntent(Context context, String rootTitle, File jsonFilePath, boolean deleteFileWhenDone) {
+	static private Intent createIntent(Context context, String rootTitle, File jsonFilePath,
+                                      boolean deleteFileWhenDone, boolean internalSerialization) {
+
 		Intent intent = new Intent(context, PlaxienActivity.class);
 		intent.putExtra(EXTRA_JSON_FILE_PATH, jsonFilePath.getAbsolutePath());
 		intent.putExtra(EXTRA_ROOT_TITLE, rootTitle);
 		intent.putExtra(EXTRA_DELETE_WHEN_DONE, deleteFileWhenDone);
+        intent.putExtra(EXTRA_INTERNAL_SERIALIZATION, internalSerialization);
 		return intent;
 	}
+
+    public static void explain(Context context, String rootTitle, Explain.Node root, boolean deleteFileWhenDone) {
+        File explainFile = new File(context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), rootTitle + ".json");
+        PrintWriter out;
+        try {
+            out = new PrintWriter(explainFile);
+        } catch (FileNotFoundException e) {
+            return;
+        }
+
+        try {
+            out.println(root.toJSON());
+        } finally {
+            out.close();
+        }
+        Intent intent = PlaxienActivity.createIntent(context, rootTitle, explainFile, deleteFileWhenDone, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+
+    }
 	
-	public static void explainFromJsonString(Context context, String rootTitle, File explainDir, String explainFileName, String jsonData, boolean deleteFileWhenDone) {
+	public static void explainFromJsonString(Context context, String rootTitle, File explainDir,
+                                             String explainFileName, String jsonData, boolean deleteFileWhenDone) {
 		File explainFile = new File(explainDir, explainFileName);
 		PrintWriter out;
 		try {
@@ -62,15 +89,16 @@ public class PlaxienActivity extends Activity {
 		}
 		explainFromJsonFile(context, rootTitle, explainFile, deleteFileWhenDone);
 	}
+
+
 	
-	public static void explainFromJsonFile(Context context, String rootTitle, File jsonDataFile, boolean deleteWhenDone) {
-		Intent intent = PlaxienActivity.createIntent(context, rootTitle, jsonDataFile, deleteWhenDone);
+	public static void explainFromJsonFile(Context context, String rootTitle, File jsonDataFile,
+                                           boolean deleteWhenDone) {
+		Intent intent = PlaxienActivity.createIntent(context, rootTitle, jsonDataFile, deleteWhenDone, false);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		
-		if (intent != null) {
-			context.startActivity(intent);
-		}		
-	}
+
+        context.startActivity(intent);
+    }
 	
 	private static String convertStreamToString(InputStream is) throws IOException {
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -118,6 +146,9 @@ public class PlaxienActivity extends Activity {
 		if (intent.hasExtra(EXTRA_DELETE_WHEN_DONE)) {
 			mDeleteWhenDone = intent.getExtras().getBoolean(EXTRA_DELETE_WHEN_DONE);
 		}
+        if (intent.hasExtra(EXTRA_INTERNAL_SERIALIZATION)) {
+            mInternalSerialization = intent.getExtras().getBoolean(EXTRA_INTERNAL_SERIALIZATION);
+        }
 
 		ScrollView contentLayout = (ScrollView) findViewById(R.id.plaxien_content_layout);
 		
@@ -126,9 +157,16 @@ public class PlaxienActivity extends Activity {
 			jsonData = getStringFromFile(mJsonFile);
 		}
 
-		ExplainViewFactory viewFactory = new ExplainViewFactory(this);
-		JSONExplainBridge bridge = new JSONExplainBridge();
-		Explain.Node node = bridge.parseJSON(jsonData, mRootTitle, true);
+        ExplainViewFactory viewFactory = new ExplainViewFactory(this);
+        Explain.Node node;
+        if (!mInternalSerialization) {
+
+            JSONExplainBridge bridge = new JSONExplainBridge();
+            node = bridge.parseJSON(jsonData, mRootTitle, true);
+        } else {
+            node = Explain.Node.fromJSON(jsonData);
+        }
+
 		View view = viewFactory.getNodeView(node);
 		
 		contentLayout.addView(view);		

@@ -1,5 +1,17 @@
 package me.everything.plaxien;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,6 +91,10 @@ public class Explain {
             this.expanded = expanded;
         }
 
+        public Node() {
+            super(NODE, "");
+        }
+
         /**
          * Add a child node to the node. This allows using a builder pattern for constructing trees
          * @param title the child's title
@@ -134,15 +150,40 @@ public class Explain {
         }
 
 
+        /**
+         * To an internal json representation
+         * @return
+         */
+        public String toJSON() {
+            Gson gson = new Gson();
+            String json = gson.toJson(this);
+
+            return json;
+        }
+
+        /**
+         * From an internal json representation.
+         * DO NOT USE THIS FOR SERVER GENERATED JSONS, this is for internal serialization and dumping only
+         * @param rawJSON
+         * @return
+         */
+        public static Node fromJSON(String rawJSON) {
+
+            Gson gson = new GsonBuilder().registerTypeAdapter(BaseNode.class, new Deserializer()).create();
+
+            try {
+                Node ret =  gson.fromJson(rawJSON, Node.class);
+
+                return ret;
+            } catch (Exception e) {
+                Log.e("Explain", "Could not parse raw JSON", e);
+                return null;
+            }
+
+        }
 
     }
 
-
-    public class UniqueNode {
-        protected Map<String, BaseNode> children;
-
-
-    }
 
 
     /**
@@ -153,6 +194,9 @@ public class Explain {
         Object value;
 
 
+        public ValueNode() {
+            super(VALUE_NODE, "");
+        }
         public ValueNode(String title, Object value) {
             super(VALUE_NODE, title);
 
@@ -162,6 +206,22 @@ public class Explain {
 
         public String toString() {
             return value != null ? value.toString() : "null";
+        }
+    }
+
+    /** Internal deserializer to distinguish between value and branch nodes.*/
+    static class Deserializer implements JsonDeserializer<BaseNode> {
+        public BaseNode deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                throws JsonParseException {
+            if (!json.isJsonObject()) {
+                return null;
+            }
+            JsonObject obj = json.getAsJsonObject();
+            if (obj.get("type").getAsInt() == BaseNode.NODE) {
+                return context.deserialize(json, Node.class);
+            } else {
+                return context.deserialize(json, ValueNode.class);
+            }
         }
     }
 }

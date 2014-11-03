@@ -79,5 +79,20 @@ public class ExplainViewFactoryTest extends InstrumentationTestCase {
         assertEquals(ll.getChildCount(), mNode.size());
     }
 
+    public void testJsonSerialization() {
+        Explain.Node node = new Explain.Node("title", true);
+        node.addChild("Child 1").addValue("Foo", "Bar");
+        node.addChild("Child 2").addChild("Foo").addChild("gazi");
+
+        String json = node.toJSON();
+        assertFalse(json.isEmpty());
+
+        node = Explain.Node.fromJSON(json);
+        assertNotNull(node);
+        View sectionView = mFactory.getNodeView(node);
+        assertNotNull(sectionView);
+
+    }
+
 
 }

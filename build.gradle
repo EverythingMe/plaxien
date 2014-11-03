@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 18
     buildToolsVersion "20.0.0"
 
     defaultConfig {
         applicationId "me.everything.plaxien"
         minSdkVersion 16
-        targetSdkVersion 21
+        targetSdkVersion 18
         versionCode 1
         versionName "1.0"
     }
