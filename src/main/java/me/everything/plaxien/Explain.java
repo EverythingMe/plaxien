@@ -154,7 +154,7 @@ public class Explain {
          * To an internal json representation
          * @return
          */
-        public String toJSON() {
+        String toJSON() {
             Gson gson = new Gson();
             String json = gson.toJson(this);
 
@@ -167,7 +167,7 @@ public class Explain {
          * @param rawJSON
          * @return
          */
-        public static Node fromJSON(String rawJSON) {
+         static Node fromJSON(String rawJSON) {
 
             Gson gson = new GsonBuilder().registerTypeAdapter(BaseNode.class, new Deserializer()).create();
 
