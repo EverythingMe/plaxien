@@ -225,9 +225,15 @@ public class ExplainActivity extends Activity {
         ExplainViewFactory viewFactory = new ExplainViewFactory(this);
         Explain.Node node;
         if (!mInternalSerialization) {
-
-            JSONExplainBridge bridge = new JSONExplainBridge();
-            node = bridge.parseJSON(jsonData, mRootTitle, true);
+        	
+        	
+            JSONExplainBridge bridge = new JSONExplainBridge(); 
+            try {
+            	node = bridge.parseJSON(jsonData, mRootTitle, true);
+            } catch (Exception e) {
+            	node = new Explain.Node("Could not parse explain JSON", true);
+            	node.addValue("Error", e.getMessage());
+            }
         } else {
             node = Explain.Node.fromJSON(jsonData);
         }
