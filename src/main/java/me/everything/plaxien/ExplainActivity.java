@@ -233,6 +233,9 @@ public class ExplainActivity extends Activity {
             	node = bridge.parseJSON(jsonData, mRootTitle, true);
 	        } else {
 	            node = Explain.Node.fromJSON(jsonData);
+	            if (node == null) {
+	            	throw new Exception("Failed parsing: " + jsonData);
+	            }
 	        }
         } catch (Exception e) {
         	node = new Explain.Node("Could not parse explain JSON", true);

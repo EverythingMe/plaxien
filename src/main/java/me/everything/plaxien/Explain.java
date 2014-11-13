@@ -168,7 +168,6 @@ public class Explain {
          * @return
          */
          static Node fromJSON(String rawJSON) {
-
             Gson gson = new GsonBuilder().registerTypeAdapter(BaseNode.class, new Deserializer()).create();
 
             try {
