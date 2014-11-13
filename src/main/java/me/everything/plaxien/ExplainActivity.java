@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import me.everything.common.log.Log;
 import me.everything.plaxien.json.JSONExplainBridge;
 import android.app.Activity;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.widget.ScrollView;
 import com.google.gson.JsonElement;
 
 public class ExplainActivity extends Activity {
+	private static final String TAG = Log.makeLogTag(ExplainActivity.class);
 	
 	private static final String EXTRA_JSON_FILE_PATH = "jsonFilePath";
 	private static final String EXTRA_ROOT_TITLE = "rootTitle";
@@ -72,11 +74,11 @@ public class ExplainActivity extends Activity {
      * Dump a json string to the out file
      */
     private static void writeDump(File file, String dump) {
-
         PrintWriter out;
         try {
             out = new PrintWriter(file);
         } catch (FileNotFoundException e) {
+        	Log.d(TAG, "Failed writing dump file: ", file);
             return;
         }
 
@@ -106,7 +108,6 @@ public class ExplainActivity extends Activity {
         Intent intent = ExplainActivity.createIntent(context, rootTitle, explainFile, deleteFileWhenDone, true);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-
     }
 
     /**
@@ -187,6 +188,7 @@ public class ExplainActivity extends Activity {
 				fin.close();
 			}
 		} catch (IOException ex) {
+			Log.e(TAG, "Failed reading file: ", file, ex);
 			return null;
 		}
 	}
@@ -224,18 +226,17 @@ public class ExplainActivity extends Activity {
 
         ExplainViewFactory viewFactory = new ExplainViewFactory(this);
         Explain.Node node;
-        if (!mInternalSerialization) {
-        	
-        	
-            JSONExplainBridge bridge = new JSONExplainBridge(); 
-            try {
+        
+        try {
+	        if (!mInternalSerialization) {
+	            JSONExplainBridge bridge = new JSONExplainBridge(); 
             	node = bridge.parseJSON(jsonData, mRootTitle, true);
-            } catch (Exception e) {
-            	node = new Explain.Node("Could not parse explain JSON", true);
-            	node.addValue("Error", e.getMessage());
-            }
-        } else {
-            node = Explain.Node.fromJSON(jsonData);
+	        } else {
+	            node = Explain.Node.fromJSON(jsonData);
+	        }
+        } catch (Exception e) {
+        	node = new Explain.Node("Could not parse explain JSON", true);
+        	node.addValue("Error", e.getMessage());
         }
 
 		View view = viewFactory.getNodeView(node);
