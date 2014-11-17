@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import me.everything.common.log.Log;
+
 import me.everything.plaxien.json.JSONExplainBridge;
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +20,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings.Secure;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +30,7 @@ import android.widget.ScrollView;
 import com.google.gson.JsonElement;
 
 public class ExplainActivity extends Activity {
-	private static final String TAG = Log.makeLogTag(ExplainActivity.class);
+	private static final String TAG = "plaxien/ExplainActivity";
 	
 	private static final String EXTRA_JSON_FILE_PATH = "jsonFilePath";
 	private static final String EXTRA_ROOT_TITLE = "rootTitle";
@@ -78,7 +79,7 @@ public class ExplainActivity extends Activity {
         try {
             out = new PrintWriter(file);
         } catch (FileNotFoundException e) {
-        	Log.d(TAG, "Failed writing dump file: ", file);
+        	Log.d(TAG, "Failed writing dump file: " + file);
             return;
         }
 
@@ -188,7 +189,7 @@ public class ExplainActivity extends Activity {
 				fin.close();
 			}
 		} catch (IOException ex) {
-			Log.e(TAG, "Failed reading file: ", file, ex);
+			Log.e(TAG, "Failed reading file: " + file, ex);
 			return null;
 		}
 	}
