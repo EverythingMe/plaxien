@@ -1,27 +1,27 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.0.2"
 
     defaultConfig {
-        applicationId "me.everything.plaxien"
-        minSdkVersion 16
-        targetSdkVersion 18
+        // applicationId "me.everything.plaxien"
+        minSdkVersion 14
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 dependencies {
+    compile project(':submodules:android-common:Common')
     compile 'com.google.code.gson:gson:2.3'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 buildscript {
@@ -32,6 +32,7 @@ buildscript {
         jcenter()
     }
 }
+
 allprojects {
     repositories {
         jcenter()
