@@ -1,7 +1,7 @@
 # Plaxien
 ## Let Your App Explain Itself Beautifully
 
-Plaxien is a small libraries we use at EverythingMe, that allows us to create "Explains" - easy to read representations of internal algorithms and state of the app.
+Plaxien is a small library we use at EverythingMe, that allows us to create "Explains" - easy to read representations of the internal state of the app.
 
 Basically it can represent hierarchical data composed of "nodes" and "key/value" pairs in a nice collapsible tree view. It looks something like this:
 
