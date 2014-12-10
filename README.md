@@ -1,7 +1,7 @@
 # Plaxien
 ## Let Your App Explain Itself Beautifully
 
-Plaxien is a small library we use at EverythingMe, that allows us to create "Explains" - easy to read representations of the internal state of the app.
+Plaxien is a small library we use at EverythingMe, that allows us to create "Explains" - easy to read representations of in-app data and logic.
 
 Basically it can represent hierarchical data composed of "nodes" and "key/value" pairs in a nice collapsible tree view. It looks something like this:
 
@@ -12,7 +12,7 @@ Basically it can represent hierarchical data composed of "nodes" and "key/value"
 The idea is simple - you want to be able to peek into your app's internal logic beyond logs.
 It could be anything - why did a search result return? What's the metadata of the current user? etc.
 
-That's why in debug builds of our app, we add Explain Views for different parts of our system (Smart Folders, Contextual Insights, Ads, In-phone search, etc).
+That's why in debug builds of our app, we add Explain Views for different parts of our system (Smart Folders, Contextual Insights, App Recommendations, In-phone search, etc).
 Over the years different features in our product had solved this ad-hoc using a number of techniques,
 but we wanted a simple, unified way to create those views.
 
@@ -27,18 +27,18 @@ Then you can either embed an `ExplainView` right in any activity, or launch an a
 ```java
 
         // First we create the root of the tree
-        Explain.Node node = new Explain.Node("Exaplaining Plaxien", null);
+        Explain.Node node = new Explain.Node("Explaining Plaxien", null);
 
         // Now we can add sub-nodes.
         node.addChild("Reasons to build it")
                 // To sub nodes we can add values
-                .addValue("Quick way to describe algorithms", true)
-                .addValue("Being able to export the explains", true);
+                .addValue("Describe our algorithms", true)
+                .addValue("Export the explains", true);
 
         // Repeat as much as you want and as deep as you want
         node.addChild("What we use it for")
                 .addValue("Explain search results", "Yes!")
-                .addValue("Explain ad serving", "Yep")
+                .addValue("Explain recommendations", "Yep")
                 .addValue("Debug context signals", "YEAH");
 
 
