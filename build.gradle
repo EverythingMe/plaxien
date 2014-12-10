@@ -5,7 +5,6 @@ android {
     buildToolsVersion "21.0.2"
 
     defaultConfig {
-        // applicationId "me.everything.plaxien"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
@@ -20,13 +19,12 @@ android {
 }
 
 dependencies {
-    compile project(':submodules:android-common:Common')
     compile 'com.google.code.gson:gson:2.3'
 }
 
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'com.android.tools.build:gradle:1.0.0'
     }
     repositories {
         jcenter()
