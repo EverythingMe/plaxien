@@ -13,7 +13,7 @@
     public class ExplainViewFactory {
         LayoutInflater mInflater;
         Context mContext;
-		ExplainViewStyle mExplainViewStyle = new Builder().build();
+        ExplainViewStyle mExplainViewStyle = new Builder().build();
 
         public ExplainViewFactory(Context context) {
             mContext = context;
@@ -21,10 +21,10 @@
 
         }
 
-		public ExplainViewFactory(Context context, ExplainViewStyle viewStyle) {
-			this(context);
-			mExplainViewStyle = viewStyle;
-		}
+        public ExplainViewFactory(Context context, ExplainViewStyle viewStyle) {
+            this(context);
+            mExplainViewStyle = viewStyle;
+        }
 
         /**
          * Get a "section" view for a multi-explain tree
@@ -36,8 +36,8 @@
 
             View ret = mInflater.inflate(R.layout.explain_view, null);
             TextView titleTextView = (TextView)ret.findViewById(R.id.section_title);
-			mExplainViewStyle.applyTitleStyle(titleTextView);
-			titleTextView.setText(tree.title);
+            mExplainViewStyle.applyTitleStyle(titleTextView);
+            titleTextView.setText(tree.title);
 
             LinearLayout ll = (LinearLayout)ret.findViewById(R.id.secion_items);
 
@@ -171,11 +171,11 @@
             public NodeHolder(View view, Explain.Node node) {
                 mNode = node;
                 titleView = (TextView) view.findViewById(R.id.node_title);
-				mExplainViewStyle.applyNodeNameStyle(titleView);
+                mExplainViewStyle.applyNodeNameStyle(titleView);
                 itemsView = (LinearLayout) view.findViewById(R.id.node_items);
                 icon = (ImageView) view.findViewById(R.id.node_icon);
                 numChildrenView = (TextView)view.findViewById(R.id.node_num_children);
-				mExplainViewStyle.applyNodeCounterStyle(numChildrenView);
+                mExplainViewStyle.applyNodeCounterStyle(numChildrenView);
                 header = view.findViewById(R.id.node_header);
             }
 
@@ -226,78 +226,78 @@
 
             public ValueNodeHolder(View view) {
                 titleView = (TextView) view.findViewById(R.id.vname);
-				mExplainViewStyle.applyValueNameStyle(titleView);
+                mExplainViewStyle.applyValueNameStyle(titleView);
                 valueView = (TextView) view.findViewById(R.id.vvalue);
-				mExplainViewStyle.applyValueStyle(valueView);
+                mExplainViewStyle.applyValueStyle(valueView);
             }
         }
 
-		public static class ExplainViewStyle {
+        public static class ExplainViewStyle {
 
-			private Builder mBuilder;
+            private Builder mBuilder;
 
-			ExplainViewStyle(Builder builder) {
-				mBuilder = builder;
-			}
+            ExplainViewStyle(Builder builder) {
+                mBuilder = builder;
+            }
 
-			public void applyTitleStyle(TextView view) {
-				view.setTextAppearance(view.getContext(), mBuilder.titleStyle);
-			}
+            public void applyTitleStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.titleStyle);
+            }
 
-			public void applyNodeNameStyle(TextView view) {
-				view.setTextAppearance(view.getContext(), mBuilder.nodeNameStyle);
-			}
+            public void applyNodeNameStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.nodeNameStyle);
+            }
 
-			public void applyNodeCounterStyle(TextView view) {
-				view.setTextAppearance(view.getContext(), mBuilder.nodeCounterStyle);
-			}
+            public void applyNodeCounterStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.nodeCounterStyle);
+            }
 
-			public void applyValueStyle(TextView view) {
-				view.setTextAppearance(view.getContext(), mBuilder.valueStyle);
-			}
+            public void applyValueStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.valueStyle);
+            }
 
-			public void applyValueNameStyle(TextView view) {
-				view.setTextAppearance(view.getContext(), mBuilder.valueNameStyle);
-			}
-		}
+            public void applyValueNameStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.valueNameStyle);
+            }
+        }
 
-		public static class Builder {
+        public static class Builder {
 
-			int titleStyle = R.style.PlaxienTitle;
-			int nodeNameStyle = R.style.PlaxienNodeName;
-			int nodeCounterStyle = R.style.PlaxienNodeCounter;
-			int valueNameStyle = R.style.PlaxienValueName;
-			int valueStyle = R.style.PlaxienValue;
+            int titleStyle = R.style.PlaxienTitle;
+            int nodeNameStyle = R.style.PlaxienNodeName;
+            int nodeCounterStyle = R.style.PlaxienNodeCounter;
+            int valueNameStyle = R.style.PlaxienValueName;
+            int valueStyle = R.style.PlaxienValue;
 
-			public Builder setTitleStyle(int style){
-				titleStyle = style;
-				return this;
-			}
+            public Builder setTitleStyle(int style) {
+                titleStyle = style;
+                return this;
+            }
 
-			public Builder setNodeNameStyle(int style) {
-				nodeNameStyle = style;
-				return this;
-			}
+            public Builder setNodeNameStyle(int style) {
+                nodeNameStyle = style;
+                return this;
+            }
 
-			public Builder setNodeCounterStyle(int style) {
-				nodeCounterStyle = style;
-				return this;
-			}
+            public Builder setNodeCounterStyle(int style) {
+                nodeCounterStyle = style;
+                return this;
+            }
 
-			public Builder setValueNameStyle(int style) {
-				valueNameStyle = style;
-				return this;
-			}
+            public Builder setValueNameStyle(int style) {
+                valueNameStyle = style;
+                return this;
+            }
 
-			public Builder setValueStyle(int style) {
-				valueStyle = style;
-				return this;
-			}
+            public Builder setValueStyle(int style) {
+                valueStyle = style;
+                return this;
+            }
 
-			public ExplainViewStyle build() {
-				return new ExplainViewStyle(this);
-			}
+            public ExplainViewStyle build() {
+                return new ExplainViewStyle(this);
+            }
 
-		}
+        }
 
     }
