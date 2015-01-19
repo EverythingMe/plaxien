@@ -60,7 +60,7 @@ In Android Studio - just clone this project, import it into Android Studio, and 
 
 ## Styling
 
-It is possible tp customize and apply your own style theme to the texts.
+It is possible to customize and apply your own style theme to the texts.
 
 #### Options
 Styles you can extend:
