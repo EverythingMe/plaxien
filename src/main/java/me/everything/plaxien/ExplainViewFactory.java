@@ -232,6 +232,9 @@
             }
         }
 
+        /**
+         * The customization styling of Explain view
+         */
         public static class ExplainViewStyle {
 
             private Builder mBuilder;
@@ -269,31 +272,60 @@
             int valueNameStyle = R.style.PlaxienValueName;
             int valueStyle = R.style.PlaxienValue;
 
+            /**
+             * Set the style resource of the title text
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
             public Builder setTitleStyle(int style) {
                 titleStyle = style;
                 return this;
             }
 
+            /**
+             * Set the style resource of the node name
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
             public Builder setNodeNameStyle(int style) {
                 nodeNameStyle = style;
                 return this;
             }
 
+            /**
+             * Set the style resource of the counter text
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
             public Builder setNodeCounterStyle(int style) {
                 nodeCounterStyle = style;
                 return this;
             }
 
+            /**
+             * Set the style resource of the value name
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
             public Builder setValueNameStyle(int style) {
                 valueNameStyle = style;
                 return this;
             }
 
+            /**
+             * Set the style of value
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
             public Builder setValueStyle(int style) {
                 valueStyle = style;
                 return this;
             }
 
+            /**
+             * Build the view style
+             * @return @return {@link me.everything.plaxien.ExplainViewFactory.ExplainViewStyle}
+             */
             public ExplainViewStyle build() {
                 return new ExplainViewStyle(this);
             }
