@@ -57,3 +57,49 @@ Then you can either embed an `ExplainView` right in any activity, or launch an a
 
 In Android Studio - just clone this project, import it into Android Studio, and add it as a dependency to your app.
 
+
+## Styling
+
+It is possible tp customize and apply your own style theme to the texts.
+
+#### Options
+Styles you can extend:
+* `PlaxienTitle` - the title text style of all nodes and values
+* `PlaxienNodeName` - the node name text style
+* `PlaxienNodeCounter` - the node counter text style
+* `PlaxienValueName` - the value name text style
+* `PlaxienValue` - the value text style
+
+#### Usage
+
+##### 1. Define `<style>`
+Define in your project new `style` for node title and change to other color for example:
+
+``` xml
+<style name="MyPlaxienTitle" parent="PlaxienTitle">
+        <item name="android:textColor">#2E4172</item>
+</style>
+```
+
+Do it for other styles if you want.
+
+##### 2. Apply styles
+
+``` java
+// Create new view style with your super new theme
+ExplainViewFactory.ExplainViewStyle viewStyle = new ExplainViewFactory.Builder()
+        .setTitleStyle(R.style.MyPlaxienTitle)
+        .setNodeNameStyle(R.style.MyPlaxienNodeName)
+        .setNodeCounterStyle(R.style.MyPlaxienNodeCounter)
+        .setValueNameStyle(R.style.MyPlaxienValueName)
+        .setValueStyle(R.style.MyPlaxienValue)
+        .build();
+
+// Create view factory as before! just pass the viewStyle
+ExplainViewFactory f = new ExplainViewFactory(this, viewStyle);
+
+```
+
+##### Theme example
+<img src="plaxien_theme.png" width="400"/>
+

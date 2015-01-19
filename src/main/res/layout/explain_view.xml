@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent"
+    android:orientation="vertical"
     android:paddingTop="10dp"
     android:paddingLeft="4dp">
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
-            android:src="@drawable/menu"
-            android:layout_margin="6dp" />
+            android:layout_marginTop="1dp"
+            android:src="@drawable/menu" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Title"
             android:id="@+id/section_title"
-            android:layout_marginLeft="4dp" />
+            android:layout_marginLeft="10dp"
+            style="@style/PlaxienTitle"/>
     </LinearLayout>
 
     <LinearLayout
