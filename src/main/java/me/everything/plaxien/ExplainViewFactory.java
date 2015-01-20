@@ -12,13 +12,18 @@
      */
     public class ExplainViewFactory {
         LayoutInflater mInflater;
-
         Context mContext;
+        ExplainViewStyle mExplainViewStyle = new Builder().build();
 
         public ExplainViewFactory(Context context) {
             mContext = context;
             mInflater = LayoutInflater.from(context);
 
+        }
+
+        public ExplainViewFactory(Context context, ExplainViewStyle viewStyle) {
+            this(context);
+            mExplainViewStyle = viewStyle;
         }
 
         /**
@@ -30,7 +35,9 @@
         public View getSectionView(Explain.Node tree) {
 
             View ret = mInflater.inflate(R.layout.explain_view, null);
-            ((TextView)ret.findViewById(R.id.section_title)).setText(tree.title);
+            TextView titleTextView = (TextView)ret.findViewById(R.id.section_title);
+            mExplainViewStyle.applyTitleStyle(titleTextView);
+            titleTextView.setText(tree.title);
 
             LinearLayout ll = (LinearLayout)ret.findViewById(R.id.secion_items);
 
@@ -164,9 +171,11 @@
             public NodeHolder(View view, Explain.Node node) {
                 mNode = node;
                 titleView = (TextView) view.findViewById(R.id.node_title);
+                mExplainViewStyle.applyNodeNameStyle(titleView);
                 itemsView = (LinearLayout) view.findViewById(R.id.node_items);
                 icon = (ImageView) view.findViewById(R.id.node_icon);
                 numChildrenView = (TextView)view.findViewById(R.id.node_num_children);
+                mExplainViewStyle.applyNodeCounterStyle(numChildrenView);
                 header = view.findViewById(R.id.node_header);
             }
 
@@ -217,8 +226,110 @@
 
             public ValueNodeHolder(View view) {
                 titleView = (TextView) view.findViewById(R.id.vname);
+                mExplainViewStyle.applyValueNameStyle(titleView);
                 valueView = (TextView) view.findViewById(R.id.vvalue);
+                mExplainViewStyle.applyValueStyle(valueView);
             }
+        }
+
+        /**
+         * The customization styling of Explain view
+         */
+        public static class ExplainViewStyle {
+
+            private Builder mBuilder;
+
+            ExplainViewStyle(Builder builder) {
+                mBuilder = builder;
+            }
+
+            public void applyTitleStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.titleStyle);
+            }
+
+            public void applyNodeNameStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.nodeNameStyle);
+            }
+
+            public void applyNodeCounterStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.nodeCounterStyle);
+            }
+
+            public void applyValueStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.valueStyle);
+            }
+
+            public void applyValueNameStyle(TextView view) {
+                view.setTextAppearance(view.getContext(), mBuilder.valueNameStyle);
+            }
+        }
+
+        public static class Builder {
+
+            int titleStyle = R.style.PlaxienTitle;
+            int nodeNameStyle = R.style.PlaxienNodeName;
+            int nodeCounterStyle = R.style.PlaxienNodeCounter;
+            int valueNameStyle = R.style.PlaxienValueName;
+            int valueStyle = R.style.PlaxienValue;
+
+            /**
+             * Set the style resource of the title text
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
+            public Builder setTitleStyle(int style) {
+                titleStyle = style;
+                return this;
+            }
+
+            /**
+             * Set the style resource of the node name
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
+            public Builder setNodeNameStyle(int style) {
+                nodeNameStyle = style;
+                return this;
+            }
+
+            /**
+             * Set the style resource of the counter text
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
+            public Builder setNodeCounterStyle(int style) {
+                nodeCounterStyle = style;
+                return this;
+            }
+
+            /**
+             * Set the style resource of the value name
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
+            public Builder setValueNameStyle(int style) {
+                valueNameStyle = style;
+                return this;
+            }
+
+            /**
+             * Set the style of value
+             * @param style The style resource
+             * @return {@link me.everything.plaxien.ExplainViewFactory.Builder}
+             */
+            public Builder setValueStyle(int style) {
+                valueStyle = style;
+                return this;
+            }
+
+            /**
+             * Build the view style
+             * @return @return {@link me.everything.plaxien.ExplainViewFactory.ExplainViewStyle}
+             */
+            public ExplainViewStyle build() {
+                return new ExplainViewStyle(this);
+            }
+
         }
 
     }

@@ -3,47 +3,28 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/container"
-    android:padding="8dp"
-    android:gravity="top">
+    android:padding="6dp"
+    android:gravity="center_vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/visual"
         android:visibility="visible"
-        android:layout_margin="2dp">
+        android:layout_marginRight="2dp">
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:id="@+id/imageView"
-            android:layout_gravity="left"
             android:src="@drawable/info" />
     </FrameLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="THE QUICK BROWN FOX"
         android:id="@+id/vname"
-        android:textIsSelectable="true"
-        android:autoLink="all"
-        android:ellipsize="end"
-        android:scrollHorizontally="true"
-        android:linksClickable="true"
-        android:maxLength="24"
-        android:singleLine="true" />
+        style="@style/PlaxienValueName"/>
 
     <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Value..."
         android:id="@+id/vvalue"
-        android:gravity="right|top"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="top"
-        android:autoLink="all"
-        android:textIsSelectable="true" />
+        style="@style/PlaxienValue" />
 </LinearLayout>
