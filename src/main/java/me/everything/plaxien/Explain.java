@@ -1,5 +1,7 @@
 package me.everything.plaxien;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -42,6 +44,11 @@ public class Explain {
             this.type= type;
             this.title = title;
         }
+
+
+
+
+
     }
 
     /**
@@ -143,6 +150,34 @@ public class Explain {
             return this;
         }
 
+        /**
+         * Add a value child node
+         * @param name the value name
+         * @param value the value itself. It can be anything, as long as it implements a sane toString()
+         * @param onClickUri a uri of an intent to be opened when the node is clicked
+         * @return the current node, so that you can append more children to it
+         */
+        public Node addValue(String name, Object value, String onClickUri) {
+
+            ValueNode ret = new ValueNode(name, value, onClickUri);
+            children.add(ret);
+            return this;
+        }
+
+        /**
+         * Add a value child node
+         * @param name the value name
+         * @param value the value itself. It can be anything, as long as it implements a sane toString()
+         * @param onClickIntent an intent to be started when the node is clicked
+         * @return the current node, so that you can append more children to it
+         */
+        public Node addValue(String name, Object value, Intent onClickIntent) {
+
+            ValueNode ret = new ValueNode(name, value, onClickIntent);
+            children.add(ret);
+            return this;
+        }
+
         public int size() {
             return children.size();
         }
@@ -186,20 +221,45 @@ public class Explain {
     /**
      * A value node holds a terminal key/value pair for display.
      * The value can be any object, and we use the object's toString() to render it
+     * Optionally, the node can have an intent Uri to launch when the node is clicked.
+     * You can pass a Uri to it, or an intent object that will be serialized to Uri
      */
     public static  class ValueNode extends BaseNode {
         Object value;
 
+        public String onClickUri;
 
         public ValueNode() {
             super(VALUE_NODE, "");
         }
-        public ValueNode(String title, Object value) {
+
+
+        /**
+         * Constructor with a click uri
+         * @param title the node's title
+         * @param value the node's value
+         * @param onClickUri an optional Uri to launch as an intent on click
+         */
+        public ValueNode(String title, Object value, String onClickUri) {
             super(VALUE_NODE, title);
 
             this.title = title;
             this.value = value;
+            this.onClickUri = onClickUri;
         }
+
+
+        public ValueNode(String title, Object value) {
+            this(title, value, (String)null);
+        }
+
+        public ValueNode(String title, Object value, Intent onClickIntent) {
+            this(title, value, onClickIntent.toUri(Intent.URI_INTENT_SCHEME));
+        }
+
+
+
+
 
         public String toString() {
             return value != null ? value.toString() : "null";

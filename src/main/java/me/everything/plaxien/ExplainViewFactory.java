@@ -1,11 +1,15 @@
     package me.everything.plaxien;
 
     import android.content.Context;
+    import android.content.Intent;
+    import android.util.Log;
     import android.view.LayoutInflater;
     import android.view.View;
     import android.widget.ImageView;
     import android.widget.LinearLayout;
     import android.widget.TextView;
+
+    import java.net.URISyntaxException;
 
     /**
      * A factory that generates Explain views from Explain trees
@@ -151,6 +155,23 @@
             ValueNodeHolder holder = new ValueNodeHolder(view);
             holder.titleView.setText(node.title);
             holder.valueView.setText(node.toString());
+
+            // If this node has a click intent uri, we try to recreate the intent and then start an activity from it
+            if (node.onClickUri != null) {
+
+                try {
+                    final Intent i = Intent.parseUri(node.onClickUri, 0);
+
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mContext.startActivity(i);
+                        }
+                    });
+                } catch (URISyntaxException e) {
+                    Log.e("ExplainViewFactory", "Error parsing intent uri: " + node.onClickUri, e);
+                }
+            }
 
             return view;
         }
