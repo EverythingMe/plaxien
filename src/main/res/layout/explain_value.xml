@@ -22,9 +22,11 @@
 
     <TextView
         android:id="@+id/vname"
-        style="@style/PlaxienValueName"/>
+        style="@style/PlaxienValueName"
+        android:autoLink="none" />
 
     <TextView
         android:id="@+id/vvalue"
-        style="@style/PlaxienValue" />
+        style="@style/PlaxienValue"
+        android:autoLink="none" />
 </LinearLayout>

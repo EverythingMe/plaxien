@@ -33,7 +33,9 @@ Then you can either embed an `ExplainView` right in any activity, or launch an a
         node.addChild("Reasons to build it")
                 // To sub nodes we can add values
                 .addValue("Describe our algorithms", true)
-                .addValue("Export the explains", true);
+
+                // Adding a Uri or intent to a value launches them when the value is clicked
+                .addValue("Export the explains", true, "http://everything.me");
 
         // Repeat as much as you want and as deep as you want
         node.addChild("What we use it for")

@@ -147,8 +147,6 @@
 
         /**
          * Render a value view for a value node
-         * @param node
-         * @return
          */
         private View getValueView(Explain.ValueNode node) {
             View view = mInflater.inflate(R.layout.explain_value, null);
@@ -162,12 +160,17 @@
                 try {
                     final Intent i = Intent.parseUri(node.onClickUri, 0);
 
-                    view.setOnClickListener(new View.OnClickListener() {
+                    View.OnClickListener listener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mContext.startActivity(i);
                         }
-                    });
+                    };
+
+                    holder.valueView.setOnClickListener(listener);
+                    holder.titleView.setOnClickListener(listener);
+                    view.setOnClickListener(listener);
+
                 } catch (URISyntaxException e) {
                     Log.e("ExplainViewFactory", "Error parsing intent uri: " + node.onClickUri, e);
                 }
