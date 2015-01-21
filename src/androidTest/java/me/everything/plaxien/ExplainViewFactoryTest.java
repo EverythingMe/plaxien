@@ -13,7 +13,7 @@ public class ExplainViewFactoryTest extends InstrumentationTestCase {
     @Override
     public void setUp() {
 
-        mNode = new Explain.Node("Test", null);
+        mNode = new Explain.Node("Test", null, true);
         mNode.addValue("Foo", "Bar").addChild("Child 1").addValue("Bar", "Baz").addChild("Child2");
         mFactory = new ExplainViewFactory(getInstrumentation().getContext());
 
@@ -36,7 +36,7 @@ public class ExplainViewFactoryTest extends InstrumentationTestCase {
         TextView tv = (TextView) sectionView.findViewById(R.id.section_title);
         assertEquals(tv.getText(), mNode.title);
 
-        LinearLayout ll = (LinearLayout) sectionView.findViewById(R.id.secion_items);
+        LinearLayout ll = (LinearLayout) sectionView.findViewById(R.id.section_items);
         assertEquals(ll.getChildCount(), 1);
 
     }
@@ -51,7 +51,7 @@ public class ExplainViewFactoryTest extends InstrumentationTestCase {
         TextView tv = (TextView) sectionView.findViewById(R.id.section_title);
         assertEquals(tv.getText(), mNode.title);
 
-        LinearLayout ll = (LinearLayout) sectionView.findViewById(R.id.secion_items);
+        LinearLayout ll = (LinearLayout) sectionView.findViewById(R.id.section_items);
         assertEquals(ll.getChildCount(),1);
     }
 
@@ -62,6 +62,7 @@ public class ExplainViewFactoryTest extends InstrumentationTestCase {
 
         TextView tv = (TextView) sectionView.findViewById(R.id.node_title);
         assertEquals(tv.getText(), mNode.title);
+
 
         LinearLayout ll = (LinearLayout) sectionView.findViewById(R.id.node_items);
         assertEquals(ll.getChildCount(), mNode.size());

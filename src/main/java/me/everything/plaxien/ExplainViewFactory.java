@@ -43,7 +43,7 @@
             mExplainViewStyle.applyTitleStyle(titleTextView);
             titleTextView.setText(tree.title);
 
-            LinearLayout ll = (LinearLayout)ret.findViewById(R.id.secion_items);
+            LinearLayout ll = (LinearLayout)ret.findViewById(R.id.section_items);
 
             for (Explain.BaseNode root : tree.children) {
 

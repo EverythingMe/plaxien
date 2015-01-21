@@ -31,7 +31,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/secion_items"
+        android:id="@+id/section_items"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="2dp"
         android:layout_marginRight="2dp"
